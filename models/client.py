@@ -1,7 +1,5 @@
 from sqlalchemy import Column, Date, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from base import Base
 
 class Client(Base):
     __tablename__ = 'clients'

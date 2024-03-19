@@ -1,7 +1,5 @@
 from sqlalchemy import Column, Integer, String,CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from base import Base
 
 class Employee(Base):
     __tablename__ = 'employees'

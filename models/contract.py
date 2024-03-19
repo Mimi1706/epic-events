@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, CheckConstraint
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from base import Base
 
 class Contract(Base):
     __tablename__ = 'contracts'
