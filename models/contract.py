@@ -1,17 +1,17 @@
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey, CheckConstraint
 from sqlalchemy.orm import relationship
-from base import Base
+from .base import Base
 
 class Contract(Base):
     __tablename__ = 'contracts'
 
     id = Column(Integer, primary_key=True)
     created_on = Column(Date)
-    status = Column(String)
+    status = Column(String(length=255))
     total_amount = Column(Float)
     left_amount = Column(Float)
-    sales_employee_id = Column(String)
-    management_employee_id = Column(String)
+    sales_employee_id = Column(String(length=255))
+    management_employee_id = Column(String(length=255))
     client_id = Column(Integer, ForeignKey('clients.id'))
     client = relationship("Client", back_populates="contracts")
 
