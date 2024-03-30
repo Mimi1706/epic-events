@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Date, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Date, Integer, String, ForeignKey
 from .base import Base
 
 class Client(Base):
@@ -12,6 +11,5 @@ class Client(Base):
     company_name = Column(String(length=255))
     created_on = Column(Date)
     updated_on = Column(Date)
-    sales_employee_id = Column(String(length=255))
+    sales_employee_id = Column(Integer, ForeignKey('employees.id'))
 
-    sales_employee = relationship("Employee", foreign_keys=[sales_employee_id], back_populates="clients")
