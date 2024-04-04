@@ -1,13 +1,26 @@
 class MainMenuView:
-    def user_choice(self):
+    def unlogged_user_choice(self):
         return input(
             "\nBienvenue sur le logiciel CRM de Epic Events, que souhaitez vous faire ?\n"
             "1 - Se connecter\n"
             "2 - Quitter\n"
         )
 
-    def custom_input(self, message):
-        return input(message)
+    def logged_user_choice(self, employee):
+        return input(
+            f"\nBienvenue {employee.full_name}, que souhaitez-vous faire ?\n"
+            "1 - Gérer les utilisateurs\n"
+            "2 - Gérer les clients\n"
+            "3 - Gérer les contrats\n"
+            "4 - Gérer les évènements\n"
+            "5 - Quitter\n"
+        )
 
-    def custom_print(self, message):
-        return print(message)
+    def selection_error_msg(self):
+        print("Erreur de sélection, veuillez sélectionner une option valide.")
+
+    def goodbye_msg(self):
+        print("À bientôt !\n")
+
+    def failed_login_msg(self):
+        print("Nom d'utilisateur et/ou mot de passe erroné.")
