@@ -1,5 +1,6 @@
 from views.main_menu import MainMenuView
 from controllers.login import Login
+from controllers.employee import EmployeeController
 
 class MainMenuController:
     def __init__(self):
@@ -21,10 +22,11 @@ class MainMenuController:
                 self.view.selection_error_msg()
 
     def logged_menu(self, employee):
+        employee_controller = EmployeeController()
         while True:
             user_input = self.view.logged_user_choice(employee)
             if user_input == "1":
-                pass
+                employee_controller.display_menu(employee)
             elif user_input == "2":
                 pass
             elif user_input == "3":
