@@ -1,5 +1,6 @@
 from views.employee import EmployeeView
 from models import Employee
+from typing import List
 from database import session
 from permissions import EMPLOYEE_PERMISSIONS
 
@@ -16,7 +17,7 @@ class EmployeeController:
             if user_input == "1" and 'READ' in allowed_actions:
                 self.read_employees()
             elif user_input == "2" and 'READ' in allowed_actions:
-                print('recherche autorisée')
+                self.find_employee()
             elif user_input == "3" and 'CREATE' in allowed_actions:
                 print('création autorisée')
             elif user_input == "4" and 'UPDATE' in allowed_actions:
@@ -27,8 +28,17 @@ class EmployeeController:
                 quit()
 
     def read_employees(self):
-        employees = session.query(Employee).all()
-        print("\nID | Name")
-        print("-------------------")
-        for employee in employees:
-            print(f"{employee.id}  | {employee.full_name}")
+        employees: List[Employee] = session.query(Employee).all()
+        sorted_employees: List[Employee] = sorted(employees, key=lambda employee:employee.department)
+        self.view.display_employee_header()
+        for employee in sorted_employees:
+            self.view.display_employee(employee)
+
+    def find_employee(self):
+        user_input = self.view.find_employee()
+        employee = session.query(Employee).filter(Employee.id == user_input).first()
+        if employee:
+            self.view.display_employee_header()
+            return self.view.display_employee(employee)
+        else:
+            return self.view.employee_not_found()
