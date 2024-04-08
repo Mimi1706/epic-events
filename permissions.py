@@ -8,25 +8,25 @@ def retrieve_permissions(permissions):
     }
 
 EMPLOYEE_PERMISSIONS = retrieve_permissions({
-    'management': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
-    'sales': ['READ'],
+    'gestion': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
+    'commercial': ['READ'],
     'support': ['READ'],
 })
 
 CLIENT_PERMISSIONS = retrieve_permissions({
-    'management': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
-    'sales': ['READ', 'CREATE'],
+    'gestion': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
+    'commercial': ['READ', 'CREATE'],
     'support': ['READ'],
 })
 
 CONTRACT_PERMISSIONS = retrieve_permissions({
-    'management': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
-    'sales': ['READ', 'UPDATE'],
+    'gestion': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
+    'commercial': ['READ', 'UPDATE'],
     'support': ['READ'],
 })
 
 EVENT_PERMISSIONS = retrieve_permissions({
-    'management': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
-    'sales': ['READ'],
+    'gestion': ['READ', 'CREATE', 'UPDATE', 'DELETE'],
+    'commercial': ['READ'],
     'support': ['READ', 'UPDATE'],
 })
