@@ -11,5 +11,5 @@ class Employee(Base):
     password = Column(String(length=255))
 
     __table_args__ = (
-        CheckConstraint(department.in_(['sales', 'support', 'management']), name='valid_department'),
+        CheckConstraint(department.in_(['commercial', 'support', 'gestion']), name='valid_department'),
     )
