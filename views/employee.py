@@ -28,8 +28,39 @@ class EmployeeView:
     
     def display_employee(self, employee: Employee) -> None:
         min_widths = [5, 15]
-        print(f"{employee.id:<{min_widths[0]}} | {employee.department:<{min_widths[1]}} | {employee.full_name:<{min_widths[1]}} | {employee.email}")
+        return print(f"{employee.id:<{min_widths[0]}} | {employee.department:<{min_widths[1]}} | {employee.full_name:<{min_widths[1]}} | {employee.email}")
 
     def employee_not_found(self):
-        return print("Utilisateur non trouvé")
+        return print("Utilisateur non trouvé.")
+    
+    def edit_employee(self, ask_department=True):
+        full_name_input = input("\nNom et prénom : ")
+        email_input = input("Adresse email : ")
+        if ask_department :
+            department_input = input(f"1 - Commercial\n"
+                                    f"2 - Support\n"
+                                    f"3 - Gestion\n"
+                                    "Choix du département : ")
+            return full_name_input, email_input, department_input
+        else:
+            return full_name_input, email_input
+    
+    def create_employee_error(self):
+        return print("Erreur lors de la création de l'utilisateur, veuillez remplir tous les champs et sélectionner un département valide.")
 
+    def create_employee_success(self):
+        return print("Utilisateur créé !")
+
+    def delete_employee_confirm(self):
+        return input("\nSouhaitez-vous supprimer cet utilisateur ?"
+                     "\n1 - Oui"
+                     "\n2 - Non\n")
+    
+    def delete_employee_success(self):
+        return print("Utilisateur supprimé !")
+    
+    def update_employee_error(self):
+        return print("Erreur lors de la mise à jour de l'utilisateur, veuillez remplir tous les champs.")
+    
+    def update_employee_success(self):
+        return print("Utilisateur mis à jour !")

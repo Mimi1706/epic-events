@@ -19,11 +19,11 @@ class EmployeeController:
             elif user_input == "2" and 'READ' in allowed_actions:
                 self.find_employee()
             elif user_input == "3" and 'CREATE' in allowed_actions:
-                print('création autorisée')
+                self.create_employee()
             elif user_input == "4" and 'UPDATE' in allowed_actions:
-                print('modification autorisée')
+                self.update_employee()
             elif user_input == "5" and 'DELETE' in allowed_actions:
-                print('suppression autorisée')
+                self.delete_employee()
             elif user_input == "6":
                 quit()
 
@@ -39,6 +39,48 @@ class EmployeeController:
         employee = session.query(Employee).filter(Employee.id == user_input).first()
         if employee:
             self.view.display_employee_header()
-            return self.view.display_employee(employee)
+            self.view.display_employee(employee)
+            return employee
         else:
-            return self.view.employee_not_found()
+            self.view.employee_not_found()
+        
+    def create_employee(self):
+        full_name, email, department = self.view.edit_employee()
+        if department not in {"1", "2", "3"} or not full_name or not email :
+            self.view.create_employee_error()
+        else:
+            department = self.get_department_from_input(department)
+            employee = Employee(full_name=full_name, department=department, email=email, password="123")
+            session.add(employee)
+            session.commit()
+            self.view.create_employee_success()
+
+    def get_department_from_input(self, input_value):
+        departments = {
+            "1": "commercial",
+            "2": "support",
+            "3": "gestion"
+        }
+        return departments[input_value]
+
+    def delete_employee(self):
+        employee = self.find_employee()
+        if employee:
+            confirm_input = self.view.delete_employee_confirm()
+            if confirm_input == '1':
+                session.delete(employee)
+                session.commit()
+                self.view.delete_employee_success()
+
+    def update_employee(self):
+        employee = self.find_employee()
+        if employee:
+            full_name, email = self.view.edit_employee(ask_department=False)
+            if not full_name or not email:
+                self.view.update_employee_error()
+            else:
+                employee.full_name = full_name
+                employee.email = email
+                session.commit()
+                self.view.update_employee_success()
+        
