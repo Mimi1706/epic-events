@@ -25,7 +25,7 @@ class EmployeeController:
             elif user_input == "5" and 'DELETE' in allowed_actions:
                 self.delete_employee()
             elif user_input == "6":
-                quit()
+                break
 
     def read_employees(self):
         employees: List[Employee] = session.query(Employee).all()

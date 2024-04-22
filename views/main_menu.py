@@ -6,9 +6,9 @@ class MainMenuView:
             "2 - Quitter\n"
         )
 
-    def logged_user_choice(self, employee):
+    def logged_user_choice(self, employee_full_name):
         return input(
-            f"\nBienvenue {employee.full_name}, que souhaitez-vous faire ?\n"
+            f"\nBienvenue {employee_full_name}, que souhaitez-vous faire ?\n"
             "1 - Gérer les utilisateurs\n"
             "2 - Gérer les clients\n"
             "3 - Gérer les contrats\n"
@@ -24,3 +24,6 @@ class MainMenuView:
 
     def failed_login_msg(self):
         print("Nom d'utilisateur et/ou mot de passe erroné.")
+
+    def unauthorized_msg(self):
+        print("Accès non autorisé.")
