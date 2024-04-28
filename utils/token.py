@@ -5,6 +5,7 @@ import jwt
 import os
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+TOKEN_FILE_PATH = "token.txt"
 
 def generate_jwt(employee:Employee):
     payload = {
@@ -29,15 +30,13 @@ def retrieve_payload_session():
         quit()
 
 def save_token(token):
-    file_path = "token.txt"
     encoded_token = token.encode('utf-8') 
-    with open(file_path, "wb") as file: 
+    with open(TOKEN_FILE_PATH, "wb") as file: 
         file.write(encoded_token)
 
 def load_token():
-    file_path = "token.txt"
     try:
-        with open(file_path, "rb") as file: 
+        with open(TOKEN_FILE_PATH, "rb") as file: 
             encoded_token = file.read()
             return encoded_token.decode('utf-8')  
     except FileNotFoundError:
@@ -45,9 +44,8 @@ def load_token():
     return None
 
 def delete_token():
-    file_path = "token.txt"
     try:
-        with open(file_path, "w") as file: 
+        with open(TOKEN_FILE_PATH, "w"): 
             pass
     except FileNotFoundError:
         pass
