@@ -10,7 +10,6 @@ class EmployeeController:
 
     def display_menu(self):
         allowed_actions = check_permissions()
-
         while True:
             user_input = self.view.display_menu()
             if user_input == "1" and 'READ' in allowed_actions:

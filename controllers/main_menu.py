@@ -30,7 +30,7 @@ class MainMenuController:
             if user_input == "1":
                 EmployeeController().display_menu()
             elif user_input == "2":
-                pass
+                ClientController().display_menu()
             elif user_input == "3":
                 pass
             elif user_input == "4":
