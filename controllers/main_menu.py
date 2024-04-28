@@ -1,8 +1,10 @@
 from views.main_menu import MainMenuView
 from controllers.login import Login
 from controllers.employee import EmployeeController
+from controllers.client import ClientController
 from database import session
 from models import Employee
+from utils.token import authorize_user
 import os
 import jwt
 
@@ -28,7 +30,7 @@ class MainMenuController:
     def logged_menu(self, token):
         employee = self.retrieve_employee(token)
         while True:
-            Login().authorize_user(token)
+            authorize_user(token)
             user_input = self.view.logged_user_choice(employee.full_name)
             if user_input == "1":
                 EmployeeController().display_menu(employee)
