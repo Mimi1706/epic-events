@@ -2,11 +2,7 @@ from views.main_menu import MainMenuView
 from controllers.login import Login
 from controllers.employee import EmployeeController
 from controllers.client import ClientController
-from database import session
-from models import Employee
-from utils.token import authorize_user
-import os
-import jwt
+from utils.employee import retrieve_employee_from_token
 
 class MainMenuController:
     def __init__(self):
@@ -18,7 +14,7 @@ class MainMenuController:
             if user_input == "1":
                 token = Login().log_in()
                 if token:
-                    self.logged_menu(token)
+                    self.logged_menu()
                 else:
                     self.view.failed_login_msg()
             elif user_input == "2":
@@ -27,13 +23,12 @@ class MainMenuController:
             else:
                 self.view.selection_error_msg()
 
-    def logged_menu(self, token):
-        employee = self.retrieve_employee(token)
+    def logged_menu(self):
+        employee = retrieve_employee_from_token()
         while True:
-            authorize_user(token)
             user_input = self.view.logged_user_choice(employee.full_name)
             if user_input == "1":
-                EmployeeController().display_menu(employee)
+                EmployeeController().display_menu()
             elif user_input == "2":
                 pass
             elif user_input == "3":
@@ -45,12 +40,3 @@ class MainMenuController:
                 quit()
             else:
                 self.view.selection_error_msg()
-
-    def retrieve_employee(self, token):
-        SECRET_KEY = os.getenv("SECRET_KEY")
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        employee: Employee = session.query(Employee).filter_by(id=payload["id"]).first()
-        if not employee:
-            self.view.unauthorized_msg()
-            quit()
-        return employee

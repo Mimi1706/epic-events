@@ -1,10 +1,9 @@
 from models import Employee
-from permissions import EMPLOYEE_PERMISSIONS
+from utils.employee import check_permissions
 
 class EmployeeView:
-    def display_menu(self, employee: Employee):
-        role_permissions = EMPLOYEE_PERMISSIONS.get(employee.department, {})
-        allowed_actions = [action for action, allowed in role_permissions.items() if allowed]
+    def display_menu(self):
+        allowed_actions = check_permissions()
         menu_options = ["\n1 - Voir la liste des utilisateurs"]
         if 'READ' in allowed_actions:
             menu_options.append("2 - Chercher un utilisateur")

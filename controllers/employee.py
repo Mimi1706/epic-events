@@ -8,11 +8,11 @@ class EmployeeController:
     def __init__(self):
         self.view = EmployeeView()
 
-    def display_menu(self, employee:Employee):
-        allowed_actions = check_permissions(employee.department)
+    def display_menu(self):
+        allowed_actions = check_permissions()
 
         while True:
-            user_input = self.view.display_menu(employee)
+            user_input = self.view.display_menu()
             if user_input == "1" and 'READ' in allowed_actions:
                 self.read_employees()
             elif user_input == "2" and 'READ' in allowed_actions:

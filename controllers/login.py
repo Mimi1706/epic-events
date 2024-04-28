@@ -1,7 +1,7 @@
 from views.login import LoginView
 from database import session
 from models import Employee
-from utils.token import generate_jwt, load_token, validate_token
+from utils.token import generate_jwt, load_token, retrieve_payload_session
 import bcrypt
 
 class Login:
@@ -10,7 +10,7 @@ class Login:
 
     def log_in(self):
         token = load_token()
-        payload = validate_token(token)
+        payload = retrieve_payload_session()
         if token and payload:
             employee = session.query(Employee).filter(Employee.id == payload["id"]).first()
             if employee:

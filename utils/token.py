@@ -15,17 +15,17 @@ def generate_jwt(employee:Employee):
     save_token(token)
     return token
 
-def authorize_user(token):
+def retrieve_payload_session():
     try:
+        token = load_token()
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         if datetime.now() > datetime.fromisoformat(payload["token_expiration"]):
-            LoginView.expired_session_msg()
-        else:
-            if payload["id"]:
-                return True
-            return False
-    except jwt.InvalidTokenError:
+            return LoginView.expired_session_msg()
+        if payload:
+            return payload
+    except:
         LoginView.error_msg()
+        delete_token()
         quit()
 
 def save_token(token):
@@ -44,13 +44,10 @@ def load_token():
         pass
     return None
 
-def validate_token(token):
+def delete_token():
+    file_path = "token.txt"
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        expiration = datetime.fromisoformat(payload['token_expiration'])
-        if datetime.now() < expiration:
-            return payload
-        else:
-            return None
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return False 
+        with open(file_path, "w") as file: 
+            pass
+    except FileNotFoundError:
+        pass
