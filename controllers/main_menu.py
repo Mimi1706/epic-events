@@ -3,6 +3,7 @@ from controllers.login import Login
 from controllers.employee import EmployeeController
 from controllers.client import ClientController
 from utils.employee import retrieve_employee_from_token
+from utils.token import delete_token
 
 class MainMenuController:
     def __init__(self):
@@ -36,6 +37,9 @@ class MainMenuController:
             elif user_input == "4":
                 pass
             elif user_input == "5":
+                delete_token()
+                break
+            elif user_input == "6":
                 self.view.goodbye_msg()
                 quit()
             else:

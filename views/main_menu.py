@@ -13,7 +13,8 @@ class MainMenuView:
             "2 - Gérer les clients\n"
             "3 - Gérer les contrats\n"
             "4 - Gérer les évènements\n"
-            "5 - Quitter\n"
+            "5 - Se déconnecter\n"
+            "6 - Quitter\n"
         )
 
     def selection_error_msg(self):

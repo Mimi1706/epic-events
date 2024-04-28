@@ -10,8 +10,8 @@ class Login:
 
     def log_in(self):
         token = load_token()
-        payload = retrieve_payload_session()
-        if token and payload:
+        if token:
+            payload = retrieve_payload_session()
             employee = session.query(Employee).filter(Employee.id == payload["id"]).first()
             if employee:
                 return generate_jwt(employee)
