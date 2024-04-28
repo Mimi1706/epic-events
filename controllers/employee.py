@@ -2,15 +2,14 @@ from views.employee import EmployeeView
 from models import Employee
 from typing import List
 from database import session
-from permissions import EMPLOYEE_PERMISSIONS
+from utils.employee import check_permissions
 
 class EmployeeController:
     def __init__(self):
         self.view = EmployeeView()
 
     def display_menu(self, employee:Employee):
-        role_permissions = EMPLOYEE_PERMISSIONS.get(employee.department, {})
-        allowed_actions = [action for action, allowed in role_permissions.items() if allowed]
+        allowed_actions = check_permissions(employee.department)
 
         while True:
             user_input = self.view.display_menu(employee)
