@@ -1,4 +1,4 @@
 from controllers.main_menu import MainMenuController
 
 controller = MainMenuController()
-controller.unlogged_menu()
+controller.display_menu()

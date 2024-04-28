@@ -3,11 +3,18 @@ from controllers.login import Login
 from controllers.employee import EmployeeController
 from controllers.client import ClientController
 from utils.employee import retrieve_employee_from_token
-from utils.token import delete_token
+from utils.token import delete_token, load_token
 
 class MainMenuController:
     def __init__(self):
         self.view = MainMenuView()
+
+    def display_menu(self):
+        token = load_token()
+        if token:
+            return self.logged_menu()
+        else:
+            return self.unlogged_menu()
 
     def unlogged_menu(self):
         while True:
@@ -38,7 +45,7 @@ class MainMenuController:
                 pass
             elif user_input == "5":
                 delete_token()
-                break
+                self.unlogged_menu()
             elif user_input == "6":
                 self.view.goodbye_msg()
                 quit()
