@@ -3,15 +3,15 @@ from controllers.login import Login
 from controllers.employee import EmployeeController
 from controllers.client import ClientController
 from utils.employee import retrieve_employee_from_token
-from utils.token import delete_token, load_token
+from utils.token import delete_token, retrieve_payload_session
 
 class MainMenuController:
     def __init__(self):
         self.view = MainMenuView()
 
     def display_menu(self):
-        token = load_token()
-        if token:
+        payload = retrieve_payload_session()
+        if payload:
             return self.logged_menu()
         else:
             return self.unlogged_menu()
@@ -20,11 +20,9 @@ class MainMenuController:
         while True:
             user_input = self.view.unlogged_user_choice()
             if user_input == "1":
-                token = Login().log_in()
-                if token:
+                employee = Login().log_in()
+                if employee:
                     self.logged_menu()
-                else:
-                    self.view.failed_login_msg()
             elif user_input == "2":
                 self.view.goodbye_msg()
                 quit()

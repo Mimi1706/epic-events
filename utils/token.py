@@ -7,6 +7,8 @@ import os
 SECRET_KEY = os.getenv("SECRET_KEY")
 TOKEN_FILE_PATH = "token.txt"
 
+login_view = LoginView()
+
 def generate_jwt(employee:Employee):
     payload = {
     'id': employee.id,
@@ -17,17 +19,17 @@ def generate_jwt(employee:Employee):
     return token
 
 def retrieve_payload_session():
-    try:
-        token = load_token()
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        if datetime.now() > datetime.fromisoformat(payload["token_expiration"]):
-            return LoginView.expired_session_msg()
-        if payload:
-            return payload
-    except:
-        LoginView.error_msg()
-        delete_token()
-        quit()
+    token = load_token()
+    if token: 
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            if payload: 
+                return payload
+        except:
+            login_view.error_msg()
+            delete_token()
+            quit()
+    return None
 
 def save_token(token):
     encoded_token = token.encode('utf-8') 
@@ -38,10 +40,12 @@ def load_token():
     try:
         with open(TOKEN_FILE_PATH, "rb") as file: 
             encoded_token = file.read()
-            return encoded_token.decode('utf-8')  
+            if not encoded_token:
+                login_view.expired_session_msg()
+                return None
+            return encoded_token.decode('utf-8')
     except FileNotFoundError:
         pass
-    return None
 
 def delete_token():
     try:

@@ -23,8 +23,5 @@ class MainMenuView:
     def goodbye_msg(self):
         print("À bientôt !\n")
 
-    def failed_login_msg(self):
-        print("Nom d'utilisateur et/ou mot de passe erroné.")
-
     def unauthorized_msg(self):
         print("Accès non autorisé.")
