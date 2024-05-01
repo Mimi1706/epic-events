@@ -19,11 +19,12 @@ class ClientView:
 
     def display_client(self, client: Client):
         return print(
-            f"\nCompagnie : {client.company_name}\n"
+            f"\nID Client : {client.id}\n"
+            f"Compagnie : {client.company_name}\n"
             f"Nom/Prénom : {client.full_name}\n"
             f"Email : {client.email}\n"
             f"Tél. : {client.phone_number}\n"
-            f"Contact commercial : {client.sales_employee_id}"
+            f"ID commercial : {client.sales_employee_id}"
         )
 
     def find_client(self):
@@ -42,6 +43,9 @@ class ClientView:
 
     def create_client_success(self):
         return print("Client créé !")
+
+    def edit_client_error(self):
+        return print("Erreur, veuillez vérifier les champs et réessayer.")
 
     def update_client_success(self):
         return print("Client mis à jour !")

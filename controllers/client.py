@@ -1,5 +1,6 @@
 from views.client import ClientView
-from utils.employee import check_permissions
+from utils.employee import check_permissions, retrieve_payload_session
+from utils.queries import get_employee
 from typing import List
 from models import Client
 from database import session
@@ -9,6 +10,7 @@ from datetime import datetime
 class ClientController:
     def __init__(self):
         self.view = ClientView()
+        self.payload = retrieve_payload_session()
 
     def display_menu(self):
         allowed_actions = check_permissions()
@@ -43,7 +45,6 @@ class ClientController:
             return client
         else:
             self.view.client_not_found()
-            return None
 
     def create_client(self):
         (
@@ -62,9 +63,12 @@ class ClientController:
             created_on=datetime.now(),
             updated_on=datetime.now(),
         )
-        session.add(client)
-        session.commit()
-        self.view.create_client_success()
+        if get_employee(sales_employee_id) and client:
+            session.add(client)
+            session.commit()
+            self.view.create_client_success()
+        else: 
+            self.view.edit_client_error()
 
     def update_client(self):
         client = self.find_client()
@@ -76,13 +80,17 @@ class ClientController:
                 phone_number,
                 sales_employee_id,
             ) = self.view.edit_client()
-            client.company_name = company_name
-            client.full_name = full_name
-            client.email = email
-            client.phone_number = phone_number
-            client.sales_employee_id = sales_employee_id
-            session.commit()
-            self.view.update_client_success()
+
+            if get_employee(sales_employee_id):
+                client.company_name = company_name
+                client.full_name = full_name
+                client.email = email
+                client.phone_number = phone_number
+                client.sales_employee_id = sales_employee_id
+                session.commit()
+                self.view.update_client_success()
+            else: 
+                self.view.edit_client_error()
 
     def delete_client(self):
         client = self.find_client()
