@@ -45,6 +45,7 @@ class EmployeeController:
             return employee
         else:
             self.view.employee_not_found()
+            return None
 
     def create_employee(self):
         full_name, email, department = self.view.edit_employee()
@@ -68,15 +69,6 @@ class EmployeeController:
         departments = {"1": "commercial", "2": "support", "3": "gestion"}
         return departments[input_value]
 
-    def delete_employee(self):
-        employee = self.find_employee()
-        if employee:
-            confirm_input = self.view.delete_employee_confirm()
-            if confirm_input == "1":
-                session.delete(employee)
-                session.commit()
-                self.view.delete_employee_success()
-
     def update_employee(self):
         employee = self.find_employee()
         if employee:
@@ -88,3 +80,12 @@ class EmployeeController:
                 employee.email = email
                 session.commit()
                 self.view.update_employee_success()
+
+    def delete_employee(self):
+        employee = self.find_employee()
+        if employee:
+            confirm_input = self.view.delete_employee_confirm()
+            if confirm_input == "1":
+                session.delete(employee)
+                session.commit()
+                self.view.delete_employee_success()

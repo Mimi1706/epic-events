@@ -17,13 +17,13 @@ class ClientController:
             if user_input == "1" and "READ" in allowed_actions:
                 self.read_clients()
             elif user_input == "2" and "READ" in allowed_actions:
-                pass
+                self.find_client()
             elif user_input == "3" and "CREATE" in allowed_actions:
                 self.create_client()
             elif user_input == "4" and "UPDATE" in allowed_actions:
-                pass
+                self.update_client()
             elif user_input == "5" and "DELETE" in allowed_actions:
-                pass
+                self.delete_client()
             elif user_input == "6":
                 break
 
@@ -43,6 +43,7 @@ class ClientController:
             return client
         else:
             self.view.client_not_found()
+            return None
 
     def create_client(self):
         (
@@ -64,3 +65,30 @@ class ClientController:
         session.add(client)
         session.commit()
         self.view.create_client_success()
+
+    def update_client(self):
+        client = self.find_client()
+        if client:
+            (
+                company_name,
+                full_name,
+                email,
+                phone_number,
+                sales_employee_id,
+            ) = self.view.edit_client()
+            client.company_name = company_name
+            client.full_name = full_name
+            client.email = email
+            client.phone_number = phone_number
+            client.sales_employee_id = sales_employee_id
+            session.commit()
+            self.view.update_client_success()
+
+    def delete_client(self):
+        client = self.find_client()
+        if client:
+            confirm_input = self.view.delete_client_confirm()
+            if confirm_input == "1":
+                session.delete(client)
+                session.commit()
+                self.view.delete_client_success()

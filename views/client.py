@@ -22,8 +22,8 @@ class ClientView:
             f"\nCompagnie : {client.company_name}\n"
             f"Nom/Prénom : {client.full_name}\n"
             f"Email : {client.email}\n"
-            f"Tél. : {client.phone_number}"
-            f"Contact (commercial) : {client.sales_employee_id}"
+            f"Tél. : {client.phone_number}\n"
+            f"Contact commercial : {client.sales_employee_id}"
         )
 
     def find_client(self):
@@ -39,6 +39,15 @@ class ClientView:
         phone_number = input("Numéro de téléphone : ")
         sales_employee_id = input("Numéro de l'employé (commercial) : ")
         return company_name, full_name, email, phone_number, sales_employee_id
-    
+
     def create_client_success(self):
         return print("Client créé !")
+
+    def update_client_success(self):
+        return print("Client mis à jour !")
+
+    def delete_client_confirm(self):
+        return input("\nSouhaitez-vous supprimer ce client ?" "\n1 - Oui" "\n2 - Non\n")
+
+    def delete_client_success(self):
+        return print("Client supprimé !")
