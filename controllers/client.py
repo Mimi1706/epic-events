@@ -67,7 +67,7 @@ class ClientController:
             session.add(client)
             session.commit()
             self.view.create_client_success()
-        else: 
+        else:
             self.view.edit_client_error()
 
     def update_client(self):
@@ -89,7 +89,7 @@ class ClientController:
                 client.sales_employee_id = sales_employee_id
                 session.commit()
                 self.view.update_client_success()
-            else: 
+            else:
                 self.view.edit_client_error()
 
     def delete_client(self):

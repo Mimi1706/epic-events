@@ -16,6 +16,6 @@ class Contract(Base):
 
     __table_args__ = (
         CheckConstraint(
-            status.in_(["signed", "pending", "cancelled"]), name="valid_status"
+            status.in_(["validé", "en attente", "annulé"]), name="valid_status"
         ),
     )

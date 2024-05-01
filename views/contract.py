@@ -19,13 +19,13 @@ class ContractView:
 
     def display_contract(self, contract: Contract):
         return print(
-            f"\Contrat ID : {contract.id}\n"
-            f"Client ID : {contract.client_id}\n"
+            f"\nID Contrat: {contract.id}\n"
+            f"ID Client: {contract.client_id}\n"
             f"Créé le : {contract.created_on}\n"
-            f"Montant total : {contract.total_amount}"
-            f"Montant restant : {contract.left_amount}"
-            f"Statut : {contract.status}"
-            f"ID commercial : {contract.sales_employee_id}"
+            f"Montant total : {contract.total_amount}\n"
+            f"Montant restant : {contract.left_amount}\n"
+            f"Statut : {contract.status}\n"
+            f"ID commercial : {contract.sales_employee_id}\n"
             f"ID gestion : {contract.management_employee_id}"
         )
 
@@ -37,23 +37,25 @@ class ContractView:
 
     def edit_contract(self):
         client_id = input("\nID Client : ")
-        status = input("Statut : ")
         total_amount = input("Montant total : ")
         left_amount = input("Montant restant : ")
         sales_employee_id = input("ID Commercial : ")
-        management_employee_id = input("ID Gestion")
+        management_employee_id = input("ID Gestion : ")
+        status = input(
+            f"\n1 - Validé\n" f"2 - En attente\n" f"3 - Annulé\n" "Statut du contrat : "
+        )
         return (
             client_id,
-            status,
             total_amount,
             left_amount,
             sales_employee_id,
             management_employee_id,
+            status,
         )
 
     def create_contract_success(self):
         return print("Contrat créé !")
-    
+
     def edit_contract_error(self):
         return print("Erreur, veuillez vérifier les champs et réessayer.")
 
@@ -62,7 +64,7 @@ class ContractView:
 
     def delete_contract_confirm(self):
         return input(
-            "\nSouhaitez-vous supprimer ce Contrat ?" "\n1 - Oui" "\n2 - Non\n"
+            "\nSouhaitez-vous supprimer ce contrat ?" "\n1 - Oui" "\n2 - Non\n"
         )
 
     def delete_contract_success(self):

@@ -30,10 +30,7 @@ class ContractController:
 
     def read_contracts(self):
         contracts: List[Contract] = session.query(Contract).all()
-        sorted_contract: List[Contract] = sorted(
-            contracts, key=lambda contract: contract.created_on, reverse=True
-        )
-        for contract in sorted_contract:
+        for contract in contracts:
             self.view.display_contract(contract)
 
     def find_contract(self):
@@ -45,34 +42,12 @@ class ContractController:
         else:
             self.view.contract_not_found()
 
-    def create_contract(self):
-        (
-            client_id,
-            status,
-            total_amount,
-            left_amount,
-            sales_employee_id,
-            management_employee_id,
-        ) = self.view.edit_contract()
-        contract = Contract(
-            client_id=client_id,
-            status=status,
-            total_amount=total_amount,
-            left_amount=left_amount,
-            sales_employee_id=sales_employee_id,
-            management_employee_id=management_employee_id,
-            created_on=datetime.now(),
-        )
-        if get_employee(sales_employee_id) and get_employee(sales_employee_id) and get_client(client_id) and contract:
-            session.add(contract)
-            session.commit()
-            self.view.create_contract_success()
-        else:
-            self.view.edit_contract_error()
+    def get_status_from_input(self, input_value):
+        status = {"1": "validé", "2": "en attente", "3": "annulé"}
+        return status[input_value]
 
-    def update_client(self):
-        contract = self.find_contract()
-        if contract:
+    def create_contract(self):
+        try:
             (
                 client_id,
                 status,
@@ -81,17 +56,60 @@ class ContractController:
                 sales_employee_id,
                 management_employee_id,
             ) = self.view.edit_contract()
-        
-            if get_employee(sales_employee_id) and get_employee(management_employee_id) and get_client(client_id):
-                contract.client_id = client_id
-                contract.status = status
-                contract.total_amount = total_amount
-                contract.left_amount = left_amount
-                contract.sales_employee_id = sales_employee_id
-                contract.management_employee_id = management_employee_id
+
+            if (
+                get_employee(sales_employee_id)
+                and get_employee(sales_employee_id)
+                and get_client(client_id)
+                and status in {"1", "2", "3"}
+            ):
+                contract = Contract(
+                client_id=client_id,
+                status=self.get_status_from_input(status),
+                total_amount=total_amount,
+                left_amount=left_amount,
+                sales_employee_id=sales_employee_id,
+                management_employee_id=management_employee_id,
+                created_on=datetime.now(),
+                )
+
+                session.add(contract)
                 session.commit()
-                self.view.update_contract_success()
+                self.view.create_contract_success()
             else:
+                self.view.edit_contract_error()
+        except:
+            self.view.edit_contract_error()
+
+    def update_client(self):
+        contract = self.find_contract()
+        if contract:
+            try:
+                (
+                    client_id,
+                    status,
+                    total_amount,
+                    left_amount,
+                    sales_employee_id,
+                    management_employee_id,
+                ) = self.view.edit_contract()
+
+                if (
+                    get_employee(sales_employee_id)
+                    and get_employee(management_employee_id)
+                    and get_client(client_id) and status in {"1", "2", "3"}
+                ):
+                    contract.client_id = client_id
+                    contract.status = status
+                    contract.total_amount = total_amount
+                    contract.left_amount = left_amount
+                    contract.sales_employee_id = sales_employee_id
+                    contract.management_employee_id = management_employee_id
+                    session.commit()
+                    self.view.update_contract_success()
+                else:
+                    self.view.edit_contract_error()
+            except:
                 self.view.edit_contract_error()
 
     def delete_contract(self):

@@ -3,6 +3,7 @@ from controllers.login import Login
 from controllers.employee import EmployeeController
 from controllers.client import ClientController
 from controllers.contract import ContractController
+from controllers.event import EventController
 from utils.employee import retrieve_employee_from_token
 from utils.token import delete_token, retrieve_payload_session
 
@@ -42,7 +43,7 @@ class MainMenuController:
             elif user_input == "3":
                 ContractController().display_menu()
             elif user_input == "4":
-                pass
+                EventController().display_menu()
             elif user_input == "5":
                 delete_token()
                 self.unlogged_menu()
