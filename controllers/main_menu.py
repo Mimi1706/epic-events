@@ -5,6 +5,7 @@ from controllers.client import ClientController
 from utils.employee import retrieve_employee_from_token
 from utils.token import delete_token, retrieve_payload_session
 
+
 class MainMenuController:
     def __init__(self):
         self.view = MainMenuView()

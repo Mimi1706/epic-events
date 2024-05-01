@@ -1,5 +1,10 @@
 from views.client import ClientView
 from utils.employee import check_permissions
+from typing import List
+from models import Client
+from database import session
+from datetime import datetime
+
 
 class ClientController:
     def __init__(self):
@@ -9,16 +14,53 @@ class ClientController:
         allowed_actions = check_permissions()
         while True:
             user_input = self.view.display_menu()
-            if user_input == "1" and 'READ' in allowed_actions:
+            if user_input == "1" and "READ" in allowed_actions:
+                self.read_clients()
+            elif user_input == "2" and "READ" in allowed_actions:
                 pass
-            elif user_input == "2" and 'READ' in allowed_actions:
+            elif user_input == "3" and "CREATE" in allowed_actions:
+                self.create_client()
+            elif user_input == "4" and "UPDATE" in allowed_actions:
                 pass
-            elif user_input == "3" and 'CREATE' in allowed_actions:
-                pass
-            elif user_input == "4" and 'UPDATE' in allowed_actions:
-                pass
-            elif user_input == "5" and 'DELETE' in allowed_actions:
+            elif user_input == "5" and "DELETE" in allowed_actions:
                 pass
             elif user_input == "6":
                 break
 
+    def read_clients(self):
+        clients: List[Client] = session.query(Client).all()
+        sorted_clients: List[Client] = sorted(
+            clients, key=lambda client: client.company_name
+        )
+        for client in sorted_clients:
+            self.view.display_client(client)
+
+    def find_client(self):
+        user_input = self.view.find_client()
+        client = session.query(Client).filter(Client.id == user_input).first()
+        if client:
+            self.view.display_client(client)
+            return client
+        else:
+            self.view.client_not_found()
+
+    def create_client(self):
+        (
+            company_name,
+            full_name,
+            email,
+            phone_number,
+            sales_employee_id,
+        ) = self.view.edit_client()
+        client = Client(
+            company_name=company_name,
+            full_name=full_name,
+            email=email,
+            phone_number=phone_number,
+            sales_employee_id=sales_employee_id,
+            created_on=datetime.now(),
+            updated_on=datetime.now(),
+        )
+        session.add(client)
+        session.commit()
+        self.view.create_client_success()
