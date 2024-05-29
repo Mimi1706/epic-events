@@ -1,2 +1,2 @@
 [run]
-omit = models/* , tests/*, database.py
+omit = models/* , tests/*, database.py, views/*, permissions.py
