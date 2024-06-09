@@ -62,15 +62,15 @@ class EventController:
                 and get_employee(support_employee_id)
             ):
                 event = Event(
-                contract_id=contract_id,
-                name=name,
-                start_date=datetime.strptime(start_date, "%d/%m/%Y"),
-                end_date=datetime.strptime(end_date, "%d/%m/%Y"),
-                location=location,
-                attendees=attendees if attendees.isdigit() else 0,
-                notes=notes,
-                management_employee_id=management_employee_id,
-                support_employee_id=support_employee_id,
+                    contract_id=contract_id,
+                    name=name,
+                    start_date=datetime.strptime(start_date, "%d/%m/%Y"),
+                    end_date=datetime.strptime(end_date, "%d/%m/%Y"),
+                    location=location,
+                    attendees=attendees if attendees.isdigit() else 0,
+                    notes=notes,
+                    management_employee_id=management_employee_id,
+                    support_employee_id=support_employee_id,
                 )
                 session.add(event)
                 session.commit()
@@ -101,19 +101,17 @@ class EventController:
                     and get_employee(management_employee_id)
                     and get_employee(support_employee_id)
                 ):
-                    print("helloooooooo1")
-                    event.name=name
+                    event.name = name
                     event.contract_id = contract_id
-                    event.start_date= datetime.strptime(start_date, "%d/%m/%Y")
+                    event.start_date = datetime.strptime(start_date, "%d/%m/%Y")
                     event.end_date = datetime.strptime(end_date, "%d/%m/%Y")
                     event.location = location
                     event.attendees = attendees if attendees.isdigit() else 0
                     event.notes = notes
                     event.management_employee_id = management_employee_id
                     event.support_employee_id = support_employee_id
-                    print("helloooooooo")
                     session.commit()
-                    self.view.create_event_success()
+                    self.view.update_event_success()
                 else:
                     self.view.edit_event_error()
             except:

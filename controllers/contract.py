@@ -22,7 +22,7 @@ class ContractController:
             elif user_input == "3" and "CREATE" in allowed_actions:
                 self.create_contract()
             elif user_input == "4" and "UPDATE" in allowed_actions:
-                self.update_client()
+                self.update_contract()
             elif user_input == "5" and "DELETE" in allowed_actions:
                 self.delete_contract()
             elif user_input == "6":
@@ -50,11 +50,11 @@ class ContractController:
         try:
             (
                 client_id,
-                status,
                 total_amount,
                 left_amount,
                 sales_employee_id,
                 management_employee_id,
+                status,
             ) = self.view.edit_contract()
 
             if (
@@ -64,13 +64,13 @@ class ContractController:
                 and status in {"1", "2", "3"}
             ):
                 contract = Contract(
-                client_id=client_id,
-                status=self.get_status_from_input(status),
-                total_amount=total_amount,
-                left_amount=left_amount,
-                sales_employee_id=sales_employee_id,
-                management_employee_id=management_employee_id,
-                created_on=datetime.now(),
+                    client_id=client_id,
+                    status=self.get_status_from_input(status),
+                    total_amount=total_amount,
+                    left_amount=left_amount,
+                    sales_employee_id=sales_employee_id,
+                    management_employee_id=management_employee_id,
+                    created_on=datetime.now(),
                 )
 
                 session.add(contract)
@@ -81,26 +81,27 @@ class ContractController:
         except:
             self.view.edit_contract_error()
 
-    def update_client(self):
+    def update_contract(self):
         contract = self.find_contract()
         if contract:
             try:
                 (
                     client_id,
-                    status,
                     total_amount,
                     left_amount,
                     sales_employee_id,
                     management_employee_id,
+                    status,
                 ) = self.view.edit_contract()
 
                 if (
                     get_employee(sales_employee_id)
                     and get_employee(management_employee_id)
-                    and get_client(client_id) and status in {"1", "2", "3"}
+                    and get_client(client_id)
+                    and status in {"1", "2", "3"}
                 ):
                     contract.client_id = client_id
-                    contract.status = status
+                    contract.status = self.get_status_from_input(status)
                     contract.total_amount = total_amount
                     contract.left_amount = left_amount
                     contract.sales_employee_id = sales_employee_id
