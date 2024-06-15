@@ -3,12 +3,21 @@ from models import Employee
 from views.login import LoginView
 import jwt
 import os
+from datetime import datetime
+from database import session
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 TOKEN_FILE_PATH = "token.txt"
 
 login_view = LoginView()
 
+
+def check_token_expiration(token_date):
+    given_date = datetime.fromisoformat(token_date)
+    current_date = datetime.now()
+    if given_date > current_date:
+        return True
+    return False
 
 def generate_jwt(employee: Employee):
     payload = {
@@ -25,7 +34,8 @@ def retrieve_payload_session():
     if token:
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            if payload:
+            employee: Employee = (session.query(Employee).filter(Employee.id == payload["id"]).first())
+            if payload and check_token_expiration(payload.token_expiration) and employee:
                 return payload
         except:
             login_view.error_msg()
