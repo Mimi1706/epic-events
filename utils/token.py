@@ -19,6 +19,7 @@ def check_token_expiration(token_date):
         return True
     return False
 
+
 def generate_jwt(employee: Employee):
     payload = {
         "id": employee.id,
@@ -34,8 +35,14 @@ def retrieve_payload_session():
     if token:
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            employee: Employee = (session.query(Employee).filter(Employee.id == payload["id"]).first())
-            if payload and check_token_expiration(payload.token_expiration) and employee:
+            employee: Employee = (
+                session.query(Employee).filter(Employee.id == payload["id"]).first()
+            )
+            if (
+                payload
+                and check_token_expiration(payload.token_expiration)
+                and employee
+            ):
                 return payload
         except:
             login_view.error_msg()
