@@ -21,4 +21,4 @@ Epic Events is a company specializing in event organization. This project was de
 
 ### Tests
 
-To launch the tests and see the coverage, use the command `pytest --cov --cov-config=.coveragerc`
+To launch the tests and view the coverage, use the command `pytest --cov --cov-config=.coveragerc`
