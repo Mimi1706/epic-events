@@ -2,7 +2,7 @@ from views.employee import EmployeeView
 from models import Employee
 from typing import List
 from database import session
-from utils.employee import check_permissions
+from utils.employee import check_permissions, generate_password
 import bcrypt
 
 
@@ -54,7 +54,8 @@ class EmployeeController:
         else:
             department = self.get_department_from_input(department)
             salt = bcrypt.gensalt()
-            hashed_password = bcrypt.hashpw("123".encode("utf-8"), salt)
+            new_password = generate_password()
+            hashed_password = bcrypt.hashpw(new_password.encode("utf-8"), salt)
             employee = Employee(
                 full_name=full_name,
                 department=department,
@@ -64,6 +65,7 @@ class EmployeeController:
             session.add(employee)
             session.commit()
             self.view.create_employee_success()
+            self.view.display_new_employee_infos(email, new_password)
 
     def get_department_from_input(self, input_value):
         departments = {"1": "commercial", "2": "support", "3": "gestion"}

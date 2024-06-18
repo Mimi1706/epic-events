@@ -49,6 +49,10 @@ class EmployeeView:
 
     def create_employee_success(self):
         return print("Utilisateur créé !")
+    
+    def display_new_employee_infos(self, employee_email, password):
+        return print(f"ID : {employee_email}\n"
+                     f"MDP : {password}")
 
     def delete_employee_confirm(self):
         return input("\nSouhaitez-vous supprimer cet utilisateur ?"

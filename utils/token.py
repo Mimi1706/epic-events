@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from models import Employee
 from views.login import LoginView
-import jwt
-import os
 from datetime import datetime
 from database import session
+import jwt
+import os
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 TOKEN_FILE_PATH = "token.txt"
@@ -40,7 +40,7 @@ def retrieve_payload_session():
             )
             if (
                 payload
-                and check_token_expiration(payload.token_expiration)
+                and check_token_expiration(payload['token_expiration'])
                 and employee
             ):
                 return payload

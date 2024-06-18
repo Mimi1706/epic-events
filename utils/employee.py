@@ -3,6 +3,8 @@ from database import session
 from models import Employee
 from permissions import EMPLOYEE_PERMISSIONS
 import os
+import random
+import string
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
@@ -22,3 +24,8 @@ def check_permissions():
         action for action, allowed in role_permissions.items() if allowed
     ]
     return allowed_actions
+
+def generate_password():
+    characters = string.ascii_letters + string.digits
+    password = ''.join(random.choice(characters) for _ in range(7))
+    return password
