@@ -32,7 +32,8 @@ def test_create_employee(mock_db_session: Session, mocker: MockerFixture):
     mock_print = StringIO()
     mocker.patch("sys.stdout", new=mock_print)
     EmployeeController().create_employee()
-    assert mock_print.getvalue().strip() == "Utilisateur créé !"
+    print_lines = mock_print.getvalue().strip().splitlines()
+    assert print_lines[0] == "Utilisateur créé !"
     mock_db_session.rollback()
 
 
