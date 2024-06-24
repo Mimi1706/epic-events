@@ -14,7 +14,9 @@ class ContractView:
             menu_options.append("4 - Mettre à jour un contrat")
         if "DELETE" in allowed_actions:
             menu_options.append("5 - Effacer un contrat")
-        menu_options.append("6 - Retour\n")
+        if "UPDATE" in allowed_actions:
+            menu_options.append("6 - Filtrer les contrats")
+        menu_options.append("7 - Retour\n")
         return input("\n".join(menu_options))
 
     def display_contract(self, contract: Contract):
@@ -34,6 +36,11 @@ class ContractView:
 
     def contract_not_found(self):
         return print("contrat non trouvé.")
+
+    def filter_contract(self):
+        return input(
+            f"\nFiltrer par :\n" "1 - Contrats impayés\n" "2 - Contracts en attente\n"
+        )
 
     def edit_contract(self):
         client_id = input("\nID Client : ")

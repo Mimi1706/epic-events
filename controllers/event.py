@@ -25,7 +25,9 @@ class EventController:
                 self.update_event()
             elif user_input == "5" and "DELETE" in allowed_actions:
                 self.delete_event()
-            elif user_input == "6":
+            elif user_input == "6" and "UPDATE" in allowed_actions:
+                self.filter_event()
+            elif user_input == "7":
                 break
 
     def read_events(self):
@@ -41,6 +43,23 @@ class EventController:
             return event
         else:
             self.view.event_not_found()
+
+    def filter_event(self):
+        employee_id_input = self.view.filter_event()
+        employee = get_employee(employee_id_input)
+        if employee:
+            events = (
+                session.query(Event)
+                .filter(Event.support_employee_id == employee.id)
+                .all()
+            )
+            if len(events) > 0:
+                for event in events:
+                    self.view.display_event(event)
+            else:
+                self.view.filter_event_not_found()
+        else:
+            self.view.filter_event_employee_not_found()
 
     def create_event(self):
         try:

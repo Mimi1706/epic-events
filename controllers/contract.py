@@ -25,7 +25,9 @@ class ContractController:
                 self.update_contract()
             elif user_input == "5" and "DELETE" in allowed_actions:
                 self.delete_contract()
-            elif user_input == "6":
+            elif user_input == "6" and "DELETE" in allowed_actions:
+                self.filter_contract()
+            elif user_input == "7":
                 break
 
     def read_contracts(self):
@@ -41,6 +43,21 @@ class ContractController:
             return contract
         else:
             self.view.contract_not_found()
+
+    def filter_contract(self):
+        user_input = self.view.filter_contract()
+        if user_input == "1":
+            unpaid_contracts = (
+                session.query(Contract).filter(Contract.left_amount > 0).all()
+            )
+            for contract in unpaid_contracts:
+                self.view.display_contract(contract)
+        elif user_input == "2":
+            unsigned_events = (
+                session.query(Contract).filter(Contract.status == "en attente").all()
+            )
+            for contract in unsigned_events:
+                self.view.display_contract(contract)
 
     def get_status_from_input(self, input_value):
         status = {"1": "validé", "2": "en attente", "3": "annulé"}

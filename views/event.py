@@ -15,7 +15,9 @@ class EventView:
             menu_options.append("4 - Mettre à jour un évènement")
         if "DELETE" in allowed_actions:
             menu_options.append("5 - Effacer un évènement")
-        menu_options.append("6 - Retour\n")
+        if "UPDATE" in allowed_actions:
+            menu_options.append("6 - Filtrer par employé")
+        menu_options.append("7 - Retour\n")
         return input("\n".join(menu_options))
 
     def display_event(self, event: Event):
@@ -34,6 +36,15 @@ class EventView:
 
     def find_event(self):
         return input("\nVeuillez entrer le numéro ID de l'évènement : ")
+
+    def filter_event(self):
+        return input("Veuillez entrer l'ID de l'employee : ")
+
+    def filter_event_not_found(self):
+        return print("Aucun évènement n'est lié à cet employé.")
+    
+    def filter_event_employee_not_found(self):
+        return print("Erreur, employé non trouvé.")
 
     def event_not_found(self):
         return print("Évènement non trouvé.")
