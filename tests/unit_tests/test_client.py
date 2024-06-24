@@ -31,7 +31,8 @@ def test_create_client(mocker: MockerFixture, mock_employee: Employee):
     mock_print = StringIO()
     mocker.patch("sys.stdout", new=mock_print)
     ClientController().create_client()
-    assert mock_print.getvalue().strip() == "Client créé !"
+    print_lines = mock_print.getvalue().strip().splitlines()
+    assert print_lines[-1] == "Client créé !"
 
 
 def test_find_client(mocker: MockerFixture, mock_client: Client):

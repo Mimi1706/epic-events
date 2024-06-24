@@ -42,7 +42,7 @@ class EventView:
 
     def filter_event_not_found(self):
         return print("Aucun évènement n'est lié à cet employé.")
-    
+
     def filter_event_employee_not_found(self):
         return print("Erreur, employé non trouvé.")
 
