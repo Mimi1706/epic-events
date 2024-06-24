@@ -4,7 +4,7 @@ from models import Client
 
 class ClientView:
     def display_menu(self):
-        allowed_actions = check_permissions()
+        allowed_actions = check_permissions("CLIENT")
         menu_options = ["\n1 - Voir la liste des clients"]
         if "READ" in allowed_actions:
             menu_options.append("2 - Chercher un client")

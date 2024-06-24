@@ -1,13 +1,19 @@
 from utils.token import retrieve_payload_session
 from database import session
 from models import Employee
-from permissions import EMPLOYEE_PERMISSIONS
+from permissions import EMPLOYEE_PERMISSIONS, CLIENT_PERMISSIONS, CONTRACT_PERMISSIONS, EVENT_PERMISSIONS
 import os
 import random
 import string
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+PERMISSIONS_MAP = {
+    "EMPLOYEE": EMPLOYEE_PERMISSIONS,
+    "CLIENT": CLIENT_PERMISSIONS,
+    "CONTRACT": CONTRACT_PERMISSIONS,
+    "EVENT": EVENT_PERMISSIONS,
+}
 
 def retrieve_employee_from_token():
     payload = retrieve_payload_session()
@@ -17,9 +23,9 @@ def retrieve_employee_from_token():
     return employee
 
 
-def check_permissions():
+def check_permissions(permission_type):
     employee: Employee = retrieve_employee_from_token()
-    role_permissions = EMPLOYEE_PERMISSIONS.get(employee.department, {})
+    role_permissions = PERMISSIONS_MAP.get(permission_type, {}).get(employee.department, {})
     allowed_actions = [
         action for action, allowed in role_permissions.items() if allowed
     ]

@@ -5,7 +5,7 @@ from datetime import datetime
 
 class EventView:
     def display_menu(self):
-        allowed_actions = check_permissions()
+        allowed_actions = check_permissions("EVENT")
         menu_options = ["\n1 - Voir la liste des évènements"]
         if "READ" in allowed_actions:
             menu_options.append("2 - Chercher un évènement")

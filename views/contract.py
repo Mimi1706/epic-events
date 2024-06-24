@@ -4,7 +4,7 @@ from models import Contract
 
 class ContractView:
     def display_menu(self):
-        allowed_actions = check_permissions()
+        allowed_actions = check_permissions("CONTRACT")
         menu_options = ["\n1 - Voir la liste des contrats"]
         if "READ" in allowed_actions:
             menu_options.append("2 - Chercher un contrat")
