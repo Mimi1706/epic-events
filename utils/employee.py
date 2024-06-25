@@ -42,5 +42,5 @@ def check_permissions(permission_type):
 
 def generate_password():
     characters = string.ascii_letters + string.digits
-    password = "".join(random.choice(characters) for _ in range(7))
+    password = "".join(random.choice(characters) for _ in range(8))
     return password
